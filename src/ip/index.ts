@@ -1,16 +1,14 @@
-import * as execa from 'execa';
+import { command, commandSync } from 'execa';
 import * as fs from 'fs';
 import * as os from 'os';
 
-const { command: exec, commandSync: execSync } = execa;
-
 export const isInKubernetes = async (): Promise<boolean> => {
-  const { stdout } = await exec('printenv');
+  const { stdout } = await command('printenv');
   return stdout.indexOf('KUBERNETES') !== -1;
 };
 
 export const isInKubernetesSync = (): boolean => {
-  const { stdout } = execSync('printenv');
+  const { stdout } = commandSync('printenv');
   return stdout.indexOf('KUBERNETES') !== -1;
 };
 
@@ -34,8 +32,8 @@ export const isInDockerSync = (): boolean => {
 
 export const ipSync = (): string => {
   if (isInKubernetesSync() || isInDockerSync()) {
-    console.log(execSync('hostname -i'));
-    return execSync('hostname -i').stdout.trim();
+    console.log(commandSync('hostname -i'));
+    return commandSync('hostname -i').stdout.trim();
   }
 
   throw new Error('Attempted to call the method from outside docker container or kubernetes pod!');
@@ -43,7 +41,7 @@ export const ipSync = (): string => {
 
 export const ip = async (): Promise<string> => {
   if ((await isInKubernetes()) || (await isInDocker())) {
-    return (await exec('hostname -i')).stdout.trim();
+    return (await command('hostname -i')).stdout.trim();
   }
 
   throw new Error('Attempted to call the method from outside docker container or kubernetes pod!');
