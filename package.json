@@ -1,0 +1,62 @@
+{
+  "name": "pod-ip",
+  "version": "0.1.0",
+  "description": "Get the IP address of a Pod in Kubernetes",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint -c ./.eslintrc.js \"./**/*.{js,ts}\"",
+    "test": "jest",
+    "watch": "tsc -w -p tsconfig.json",
+    "clean": "rimraf lib .tsbuildinfo coverage doc build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RABC-Group/pod-ip.git"
+  },
+  "keywords": [
+    "ip",
+    "kubernetes",
+    "docker",
+    "pod",
+    "container"
+  ],
+  "author": "RABC Group <it@rabc.sg>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RABC-Group/pod-ip/issues"
+  },
+  "homepage": "https://github.com/RABC-Group/pod-ip#readme",
+  "dependencies": {
+    "execa": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.0",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
+    "jest": "^29.2.2",
+    "lint-staged": "^13.0.3",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.8.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "lib"
+    ],
+    "roots": [
+      "<rootDir>/tests"
+    ],
+    "transform": {
+      "node_modules/execa/.+\\.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!execa/.*)"
+    ]
+  }
+}
