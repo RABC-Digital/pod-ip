@@ -10,7 +10,7 @@ This package consists of a couple of utilities to get IP addresses of containers
 
 ## Usage
 
-Install this package
+1. Install this package
 
 using [yarn](https://classic.yarnpkg.com/en/):
 
@@ -24,3 +24,52 @@ or using [npm](https://www.npmjs.com/):
 npm install pod-ip
 ```
 
+2. Get IP address (ES6 module syntax)
+
+```javascript
+import * as podIp from "pod-ip";
+podIp.ipSync(); // ⇨ '1.1.1.1'
+```
+
+or using CommonJS syntax:
+
+```javascript
+const podIp = require("pod-ip");
+podIp.ipSync(); // ⇨ '1.1.1.1'
+```
+
+
+## API Summary
+
+| Method  |  |
+| --- | --- |
+| [`podIp.ip`](#podipip) | Get IP address asynchronously.
+| [`podIp.ipSync`](#podipipsync) | Get IP address synchronously.
+
+## API
+
+### podIp.ip
+
+Get IP address asynchronously
+
+Example:
+
+```javascript
+import * as podIp from "pod-ip";
+podIp.ip().then(console.log); // ⇨ '1.1.1.1'
+```
+
+### podIp.ipSync
+
+Get IP address synchronously
+
+Example:
+
+```javascript
+import * as podIp from "pod-ip";
+podIp.ipSync(); // ⇨ '1.1.1.1'
+```
+
+## Acknowledgements
+
+This project was inspired by [docker-ip-get](https://github.com/ukalwa/docker-ip-get).

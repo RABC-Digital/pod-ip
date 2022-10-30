@@ -1,1 +1,1 @@
-export { ip, ipSync } from './ip';
+export { ip, ipSync, isInKubernetes, isInKubernetesSync, isInDocker, isInDockerSync } from './ip';
