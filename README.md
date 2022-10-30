@@ -1,6 +1,6 @@
 # Overview
 
-[![Build Status](https://travis-ci.com/RABC-Group/pod-ip.svg?branch=master)](https://travis-ci.com/RABC-Group/pod-ip)
+[![Build Status](https://github.com/RABC-Group/pod-ip/actions/workflows/node.yml/badge.svg)
 ![npm](https://img.shields.io/npm/v/pod-ip)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/pod-ip)
 ![npm](https://img.shields.io/npm/dm/pod-ip)
