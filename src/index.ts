@@ -1,1 +1,1 @@
-export { ip, ipSync } from "./ip";
+export { ip, ipSync } from './ip';
