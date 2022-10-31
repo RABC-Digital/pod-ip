@@ -1,4 +1,5 @@
 import * as execa from 'execa';
+import * as internalIp from 'internal-ip';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as podIpTools from '../src/ip';
@@ -156,21 +157,49 @@ describe('ip', () => {
     commandMock.mockRestore();
   });
 
+  test('Synchronized methods return local ip if they are executed outside container', () => {
+    const isInKubernetesMock = jest.spyOn(podIpTools, 'isInKubernetesSync').mockReturnValue(false);
+    const isInDockerMock = jest.spyOn(podIpTools, 'isInDockerSync').mockReturnValue(false);
+    const ipMock = jest.spyOn(internalIp.v4, 'sync').mockReturnValue('1.1.1.1');
+
+    expect(podIpTools.ipSync()).toEqual('1.1.1.1');
+    isInKubernetesMock.mockRestore();
+    isInDockerMock.mockRestore();
+    ipMock.mockRestore();
+  });
+
+  test('Asynchronous methods return local ip if they are executed outside container', async () => {
+    const isInKubernetesMock = jest.spyOn(podIpTools, 'isInKubernetes').mockResolvedValue(false);
+    const isInDockerMock = jest.spyOn(podIpTools, 'isInDocker').mockResolvedValue(false);
+    const ipMock = jest.spyOn(internalIp, 'v4').mockResolvedValue('1.1.1.1');
+
+    await expect(podIpTools.ip()).resolves.toEqual('1.1.1.1');
+    isInKubernetesMock.mockRestore();
+    isInDockerMock.mockRestore();
+    ipMock.mockRestore();
+  });
+
   test('Synchronized methods throw errors if they are executed outside container', () => {
     const isInKubernetesMock = jest.spyOn(podIpTools, 'isInKubernetesSync').mockReturnValue(false);
     const isInDockerMock = jest.spyOn(podIpTools, 'isInDockerSync').mockReturnValue(false);
+    const ipMock = jest.spyOn(internalIp.v4, 'sync').mockReturnValue(undefined);
+
     expect(() => podIpTools.ipSync()).toThrow(new Error('Attempted to call the method from outside docker container or kubernetes pod!'));
     isInKubernetesMock.mockRestore();
     isInDockerMock.mockRestore();
+    ipMock.mockRestore();
   });
 
   test('Asynchronous methods throw errors if they are executed outside container', async () => {
     const isInKubernetesMock = jest.spyOn(podIpTools, 'isInKubernetes').mockResolvedValue(false);
     const isInDockerMock = jest.spyOn(podIpTools, 'isInDocker').mockResolvedValue(false);
+    const ipMock = jest.spyOn(internalIp, 'v4').mockResolvedValue(undefined);
+
     await expect(() => podIpTools.ip()).rejects.toEqual(
       new Error('Attempted to call the method from outside docker container or kubernetes pod!')
     );
     isInKubernetesMock.mockRestore();
     isInDockerMock.mockRestore();
+    ipMock.mockRestore();
   });
 });

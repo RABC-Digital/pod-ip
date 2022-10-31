@@ -1,4 +1,5 @@
 import { command, commandSync } from 'execa';
+import { v4 } from 'internal-ip';
 import * as fs from 'fs';
 import * as os from 'os';
 
@@ -43,12 +44,24 @@ export const ipSync = (): string => {
     return commandSync('hostname -i').stdout.trim();
   }
 
+  // Common Env
+  const ip = v4.sync();
+  if (ip) {
+    return ip;
+  }
+
   throw new Error('Attempted to call the method from outside docker container or kubernetes pod!');
 };
 
 export const ip = async (): Promise<string> => {
   if ((await isInKubernetes()) || (await isInDocker())) {
     return (await command('hostname -i')).stdout.trim();
+  }
+
+  // Common Env
+  const ip = await v4();
+  if (ip) {
+    return ip;
   }
 
   throw new Error('Attempted to call the method from outside docker container or kubernetes pod!');
