@@ -1,6 +1,6 @@
 {
   "name": "pod-ip",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Get the IP address of a Pod in Kubernetes",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/RABC-Group/pod-ip#readme",
   "dependencies": {
-    "default-gateway": "^6.0.3",
     "execa": "^5.1.1",
     "internal-ip": "6"
   },

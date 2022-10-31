@@ -72,4 +72,4 @@ podIp.ipSync(); // ⇨ '1.1.1.1'
 
 ## Acknowledgements
 
-This project was inspired by [docker-ip-get](https://github.com/ukalwa/docker-ip-get).
+This project was inspired by [docker-ip-get](https://github.com/ukalwa/docker-ip-get) and [internal-ip](https://github.com/sindresorhus/internal-ip).
