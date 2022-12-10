@@ -4,12 +4,24 @@ import * as fs from 'fs';
 import * as os from 'os';
 
 export const isInKubernetes = async (): Promise<boolean> => {
+  const platform = os.platform();
+
+  if (platform === 'darwin' || platform === 'win32') {
+    return false;
+  }
+
   const { stdout } = await command('printenv');
 
   return stdout.indexOf('KUBERNETES') !== -1;
 };
 
 export const isInKubernetesSync = (): boolean => {
+  const platform = os.platform();
+
+  if (platform === 'darwin' || platform === 'win32') {
+    return false;
+  }
+
   const { stdout } = commandSync('printenv');
 
   return stdout.indexOf('KUBERNETES') !== -1;
@@ -46,6 +58,7 @@ export const ipSync = (): string => {
 
   // Common Env
   const ip = v4.sync();
+
   if (ip) {
     return ip;
   }
@@ -60,6 +73,7 @@ export const ip = async (): Promise<string> => {
 
   // Common Env
   const ip = await v4();
+
   if (ip) {
     return ip;
   }

@@ -13,11 +13,19 @@ describe('isInKubernetesSync', () => {
     mock.mockRestore();
   });
   test('returns true if inside pod', () => {
+    const platformMock = jest.spyOn(os, 'platform').mockReturnValueOnce('linux');
     mock.mockReturnValueOnce({
       stdout: 'KUBERNETES_SERVER_PORT=443',
       stderr: 'error',
     } as unknown as execa.ExecaSyncReturnValue<Buffer>);
     expect(podIpTools.isInKubernetesSync()).toBe(true);
+    platformMock.mockReset();
+  });
+
+  test('returns false if platform is darwin', () => {
+    const platformMock = jest.spyOn(os, 'platform').mockReturnValueOnce('darwin');
+    expect(podIpTools.isInKubernetesSync()).toBe(false);
+    platformMock.mockReset();
   });
 
   test('returns false if inside pod', () => {
@@ -45,6 +53,12 @@ describe('isInKubernetes', () => {
     } as unknown as execa.ExecaReturnValue<Buffer>);
     await expect(podIpTools.isInKubernetes()).resolves.toBe(true);
     expect(mock).toBeCalledTimes(1);
+  });
+
+  test('returns false if platform is darwin', async () => {
+    const platformMock = jest.spyOn(os, 'platform').mockReturnValueOnce('darwin');
+    await expect(podIpTools.isInKubernetes()).resolves.toBe(false);
+    platformMock.mockReset();
   });
 
   test('returns false if inside pod', async () => {
